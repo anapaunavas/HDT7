@@ -1,4 +1,4 @@
 
-public interface ITreeTraversal<T> {
-
+public interface ITreeTraversal<V> {
+    void Walk(V value);
 }
