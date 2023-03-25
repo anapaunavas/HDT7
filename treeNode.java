@@ -1,3 +1,76 @@
-public class treeNode {
-    
+public class treeNode<K, V>{
+    private V value;
+	private K id;
+	private treeNode<K, V> left;
+	private treeNode<K, V> right;
+	private treeNode<K, V> parent;
+	
+	public treeNode(K id, V value) {
+		setId(id);
+		setValue(value);
+		setLeft(null);
+		setRight(null);
+		setParent(null);
+	}
+	
+	/**
+	 * @return the value
+	 */
+	public V getValue() {
+		return value;
+	}
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(V value) {
+		this.value = value;
+	}
+	/**
+	 * @return the id
+	 */
+	public K getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(K id) {
+		this.id = id;
+	}
+	/**
+	 * @return the left
+	 */
+	public treeNode<K, V> getLeft() {
+		return left;
+	}
+	/**
+	 * @param left the left to set
+	 */
+	public void setLeft(treeNode<K, V> left) {
+		this.left = left;
+	}
+	/**
+	 * @return the right
+	 */
+	public treeNode<K, V> getRight() {
+		return right;
+	}
+	/**
+	 * @param right the right to set
+	 */
+	public void setRight(treeNode<K, V> right) {
+		this.right = right;
+	}
+	/**
+	 * @return the parent
+	 */
+	public treeNode<K, V> getParent() {
+		return parent;
+	}
+	/**
+	 * @param parent the parent to set
+	 */
+	public void setParent(treeNode<K, V> parent) {
+		this.parent = parent;
+	}
 }
