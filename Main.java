@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Main {
     private static BinarySearchTree<String, String> englishSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings()<String>());
     private static BinarySearchTree<String, String> frenchSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings()<String>());
@@ -67,4 +69,153 @@ public class Main {
 			}
 		}
 	}
+
+    private static void translateOptions(BinarySearchTree<String, String> englishSpanishDictionary, BinarySearchTree<String, String> frenchSpanishDictionary) throws IOException, InterruptedException {
+		new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		int selection = translationOptions();
+		switch(selection) {
+			case 1:
+				// traducir oracion en ingles
+				translating(selection, englishSpanishDictionary);
+				break;
+			case 2:
+				// traducir oracion en frances
+				translating(selection, frenchSpanishDictionary);
+				break;
+			default:
+				// end system
+				start();
+				break;
+		}
+	}
+
+    private static void translating(int selection, BinarySearchTree<String, String> Dictionary) {
+		String word = " ";
+		ArrayList<String> translated = new ArrayList<String>();
+		switch(selection) {
+			case 1:
+				word = JOptionPane.showInputDialog("Ingrese una oracion en ingles para traducirla: ");
+				break;
+			case 2:
+				word = JOptionPane.showInputDialog("Ingrese una oracion en frances para traducirla: ");
+				break;
+		}
+		//word = word.replaceAll(",", " ");
+		//word = word.replaceAll(".", " ");
+
+        String[] words = word.split(" ");
+		for(int i = 0; i < words.length; i++) {
+			if(Dictionary.find(words[i]) == null) {
+				translated.add("*" + words[i]+"*");
+			}else {
+				translated.add(Dictionary.find(words[i]));
+			}
+		}
+		
+		for(int i = 0; i < translated.size(); i++) {
+			System.out.print(translated.get(i) + " ");
+		}
+		wait(3000);
+		
+	}
+
+    private static void DictionaryModifications(int selection, int userSelection, BinarySearchTree<String, String> englishSpanishDictionary, BinarySearchTree<String, String> frenchSpanishDictionary)throws IOException, InterruptedException {
+		
+		String keyWord = ""; // ingles o frances
+		String valueWord = ""; // solo ingles
+		// agregar una palabra
+		if(userSelection == 1) {
+			if(selection == 1) {
+				keyWord = JOptionPane.showInputDialog("Ingrese la palabra en ingles: ");
+				valueWord = JOptionPane.showInputDialog("Ingrese la traduccion de la palabra anterior: ");
+				englishSpanishDictionary.insert(keyWord, valueWord);
+			}else {
+				keyWord = JOptionPane.showInputDialog("Ingrese la palabra en ingles: ");
+				valueWord = JOptionPane.showInputDialog("Ingrese la traduccion de la palabra anterior: ");
+				frenchSpanishDictionary.insert(keyWord, valueWord);
+			}	
+		}else {
+			// eliminar una palabra
+			if(selection == 1) {
+				keyWord = JOptionPane.showInputDialog("Ingrese la palabra en ingles: ");
+				englishSpanishDictionary.delete(keyWord);	
+			}else {
+				keyWord = JOptionPane.showInputDialog("Ingrese la palabra en ingles: ");
+				frenchSpanishDictionary.delete(keyWord);
+			}
+		}		
+	}
+
+    private static void typeDictionary(int userSelection, BinarySearchTree<String, String> englishSpanishDictionary, BinarySearchTree<String, String> frenchSpanishDictionary)throws IOException, InterruptedException {
+		int selection  = 0;
+		while(selection != 3) {
+			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+			selection = selectionDictionary();
+			switch(selection) {
+				case 1:
+					// English Dictionary.
+					DictionaryModifications(selection, userSelection, englishSpanishDictionary, frenchSpanishDictionary);
+					break;
+				case 2:
+					// French Dictionary.
+					DictionaryModifications(selection, userSelection, englishSpanishDictionary, frenchSpanishDictionary);
+					break;
+				default:
+					// back to the previous menu.
+					start();
+					break;
+			}	
+		}
+	}
+
+    private static int selectionDictionary() {
+		String[] options = {"Diccionario en ingles", "Diccionario en frances","Regresar"};
+		boolean next_step = false;
+		int selection = 0;
+		
+		for(int i = 0; i< options.length; i++) {
+			System.out.println((i+1) + ". " + options[i]);
+		}
+		do {
+			try {
+				int AmountOptions = options.length;
+				selection = Integer.parseInt(JOptionPane.showInputDialog("Ingrese una de las opciones: "));
+				if(selection < 0 || selection > AmountOptions) {
+					System.err.println("Ingrese una opcion valida");
+				}else {
+					next_step = true;
+				}
+			}catch(NumberFormatException e) {
+				System.err.println("Ingrese un valor numerico");
+			}
+		}while(!next_step);
+		return selection;
+	}
+
+    private static int OptionsMainMenu() {
+		int selection = 0;
+		boolean next_step = false;
+		String[] options = {"Agregar una palabra al diccionario.", "Eliminar una palabra del diccionario.", "Traducir oracion", 
+				"Listado de palabras en ingles" ,"Listado de palabras en frances","Salir."};
+		
+		for(int i = 0; i < options.length; i++) {
+			System.out.println((i+1) +". " + options[i]);
+		}
+		do {
+			try {
+				int AmountOptions = options.length;
+				selection = Integer.parseInt(JOptionPane.showInputDialog("Ingrese una de las opciones"));
+				if(selection < 1 || selection > AmountOptions) {
+					System.err.println("Ingrese una de las opciones dadas");
+				}else {
+					next_step = true;
+				}
+			}catch(NumberFormatException e) {
+				System.err.println("Ingrese un valor numerico");
+			}	
+		}while(!next_step);
+		return selection;
+	}
+
+    
 }

@@ -118,4 +118,118 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}		
 		return null;
 	}
+
+    @Override
+	public V find(K id) {
+		return internalFind(root, id);
+	}
+
+	@Override
+	public int count() {
+		return count;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return count == 0;
+	}
+
+	@Override
+	public ArrayList<V> getElements() {
+		ArrayList<V> list = new ArrayList<V>();
+		
+		internalGetElements(list, root);
+		
+		return list;
+	}
+
+	@Override
+	public void inOrder(ITreeTraversal<V> traversal) {
+		internalInOrder(root, traversal);
+	}
+
+	@Override
+	public void preOrder(ITreeTraversal<V> traversal) {
+		internalPreOrder(root, traversal);
+		
+	}
+
+	@Override
+	public void postOrder(ITreeTraversal<V> traversal) {
+		internalPostOrder(root, traversal);
+	}
+
+    private void internalInsert(treeNode<K, V> actual, K id, V value) {
+		
+		int result = keyComparator.compare(actual.getId(), id);
+		
+		if (result > 0) { 
+			if (actual.getLeft() == null) { // no tiene hijos izquierdos
+				treeNode<K, V> newNode = new treeNode<K, V>(id, value);
+				actual.setLeft(newNode);
+				newNode.setParent(actual);
+				count++;
+			} else {
+				internalInsert(actual.getLeft(), id, value);
+			}	
+		} else if (result < 0) {
+			if (actual.getRight() == null) { // no tiene hijos izquierdos
+				treeNode<K, V> newNode = new treeNode<K, V>(id, value);
+				actual.setRight(newNode);
+				newNode.setParent(actual);
+				count++;
+			} else {
+				internalInsert(actual.getRight(), id, value);
+			}
+		}	
+	}
+
+    private void internalInOrder(treeNode<K, V> actual, ITreeTraversal<V> traversal) {
+		if (actual != null) {
+			internalInOrder(actual.getLeft(), traversal);
+			
+			traversal.Walk(actual.getValue());
+			
+			internalInOrder(actual.getRight(), traversal);
+		}
+	}
+
+    private void internalPreOrder(treeNode<K, V> actual, ITreeTraversal<V> traversal) {
+		if (actual != null) {
+			traversal.Walk(actual.getValue());
+			
+			internalPreOrder(actual.getLeft(), traversal);
+			
+			internalPreOrder(actual.getRight(), traversal);
+		}
+	}
+
+    private void internalPostOrder(treeNode<K, V> actual, ITreeTraversal<V> traversal) {
+		if (actual != null) {
+		
+			internalPostOrder(actual.getLeft(), traversal);
+			
+			internalPostOrder(actual.getRight(), traversal);
+			
+			traversal.Walk(actual.getValue());
+		}
+	}
+
+    private V internalFind(treeNode<K, V> actual, K id) {
+		if (actual != null) {
+			int result = keyComparator.compare(actual.getId(), id);
+			
+			if (result > 0) {
+				return internalFind(actual.getLeft(), id);
+			} else if (result < 0) {
+				return internalFind(actual.getRight(), id);
+			} else {
+				return actual.getValue();
+			}		
+		} else {
+			return null;
+		}
+	}
+
+    
 }
