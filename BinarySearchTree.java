@@ -231,5 +231,130 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
-    
+    private void internalGetElements(ArrayList<V> list, treeNode<K, V> actual) {
+		if (actual != null) {
+			internalGetElements(list, actual.getLeft());
+			
+			list.add(actual.getValue());
+			
+			internalGetElements(list, actual.getRight());
+		}
+	}
+
+    private V internalDelete(treeNode<K, V> actual, K id, boolean isLeft) {
+		if (actual != null) {
+			int result = keyComparator.compare(actual.getId(), id);
+			
+			if (result > 0) { // buscar en el lado izquierdo
+				return internalDelete(actual.getLeft(), id, true);
+			} else if (result < 0) {// buscar en el lado derecho
+				return internalDelete(actual.getRight(), id, false);
+			} else { // el nodo sera eliminado
+				
+				
+				if ( (actual.getLeft() == null) && (actual.getRight() == null) ) { 
+					V tempValue = actual.getValue();
+					if (isLeft) {
+						actual.getParent().setLeft(null);
+						actual.setParent(null);
+					} else {
+						actual.getParent().setRight(null);
+						actual.setParent(null);
+					}
+					count--;
+					return tempValue;
+				} else { // nodo intermedio
+				
+					V tempValue = actual.getValue();
+					
+					if (actual.getRight() != null) { // buscar hijo derecho mas izquierdo
+						
+						treeNode<K, V> leftOfTheRights = actual.getRight();
+						
+						while(leftOfTheRights.getLeft() != null) {
+							leftOfTheRights = leftOfTheRights.getLeft(); 
+						}
+						
+						// asignar el lado izquierdo
+						leftOfTheRights.setLeft(actual.getLeft());
+						if (leftOfTheRights.getLeft() != null) {
+							leftOfTheRights.getLeft().setParent(leftOfTheRights);
+						}
+						// asignar el lado derecho
+						if (keyComparator.compare(actual.getRight().getId(), leftOfTheRights.getId()) != 0) { // solo si leftOfTheRights es diferente de root.right
+							leftOfTheRights.getParent().setLeft(null);
+							
+							treeNode<K, V> newRootRight = leftOfTheRights;
+							
+							while (newRootRight.getRight() != null) {
+								newRootRight = newRootRight.getRight();
+							}
+							
+							newRootRight.setRight(actual.getRight());
+							if (newRootRight.getRight() != null) {
+								newRootRight.getRight().setParent(newRootRight);;
+							}
+						}
+						// asignar nuevos padres
+						if (leftOfTheRights.getRight() != null)
+							leftOfTheRights.getRight().setParent(leftOfTheRights);
+						
+						// asignar nuevo hijo al padre
+						leftOfTheRights.setParent(actual.getParent());
+						if (isLeft) {
+							leftOfTheRights.getParent().setLeft(leftOfTheRights);
+						} else {
+							leftOfTheRights.getParent().setRight(leftOfTheRights);
+						}
+						count--;
+						return tempValue;
+					} else { // buscar hijo izquierdo mas derecho
+						
+						treeNode<K, V> rightOfTheLefts = actual.getLeft();
+						
+						while(rightOfTheLefts.getRight() != null) {
+							rightOfTheLefts = rightOfTheLefts.getRight(); 
+						}
+						
+						//Assigning the right side
+						rightOfTheLefts.setRight(actual.getRight());
+						if (rightOfTheLefts.getRight() != null) {
+							rightOfTheLefts.getRight().setParent(rightOfTheLefts);
+						}
+							
+						//Assiginig the left side
+						if (keyComparator.compare(actual.getLeft().getId(), rightOfTheLefts.getId()) != 0) { // solo si rightOfTheLefts es diferente de root.left
+							rightOfTheLefts.getParent().setRight(null);
+							
+							treeNode<K, V> newRootLeft = rightOfTheLefts;
+							
+							while (newRootLeft.getLeft() != null) {
+								newRootLeft = newRootLeft.getLeft();
+							}
+							newRootLeft.setLeft(actual.getLeft());
+							if (newRootLeft.getLeft() != null) {
+								newRootLeft.getLeft().setParent(newRootLeft);;
+							}
+						}
+						//Assginig the new parentes
+						if (rightOfTheLefts.getLeft() != null)
+							rightOfTheLefts.getLeft().setParent(rightOfTheLefts);
+						
+						rightOfTheLefts.setParent(actual.getParent());
+						if (isLeft) {
+							rightOfTheLefts.getParent().setLeft(rightOfTheLefts);
+						} else {
+							rightOfTheLefts.getParent().setRight(rightOfTheLefts);
+						}
+						
+						count--;
+						return tempValue;
+					}
+				}
+			}
+		} else {
+			return null;
+		}
+    }
+
 }
