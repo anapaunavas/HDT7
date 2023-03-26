@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Main {
-    private static BinarySearchTree<String, String> englishSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings()<String>());
-    private static BinarySearchTree<String, String> frenchSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings()<String>());
+    private static BinarySearchTree<String, String> englishSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings<String>());
+	private static BinarySearchTree<String, String> frenchSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings<String>());
 
     public static void main(String[] args) throws IOException, InterruptedException {
 		System.out.println("Bienvenidx al diccionario traductor :) ");
@@ -217,5 +217,46 @@ public class Main {
 		return selection;
 	}
 
-    
+    private static int translationOptions() {
+		System.out.println("Seleccione un idioma para traducir");
+		String[] options = {"Ingles", "Frances","Regresar"};
+		boolean next_step = false;
+		int selection = 0;
+		
+		for(int i = 0; i< options.length; i++) {
+			System.out.println((i+1) + ". " + options[i]);
+		}
+		do {
+			try {
+				int AmountOptions = options.length;
+				selection = Integer.parseInt(JOptionPane.showInputDialog("Ingrese una de las opciones: "));
+				if(selection < 0 || selection > AmountOptions) {
+					System.err.println("Ingrese una opcion valida");
+				}else {
+					next_step = true;
+				}
+			}catch(NumberFormatException e) {
+				System.err.println("Ingrese un valor numerico");
+			}
+		}while(!next_step);
+		return selection;	
+	}
+
+    private static ArrayList<ArrayList<String>> extracting_data()throws IOException {
+		ArrayList<ArrayList<String>> words_dictionary = new ArrayList<ArrayList<String>>();
+		openFiles files = new openFiles();
+		
+		if(files.verifyingFile("dictionary")) {
+			words_dictionary = files.obtain_words("dictionary");
+		}	
+		return words_dictionary;
+	}
+
+    private static void wait(int wait_time) {
+        try {
+            Thread.sleep(wait_time);
+        } catch (Exception e) {
+            System.out.println("Algo salio mal :( )");
+        }
+    }
 }
