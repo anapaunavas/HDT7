@@ -1,3 +1,5 @@
+// Ana Paula Hong 22731
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +9,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class openFiles {
+    
+    /** 
+     * @param file_name
+     * @return ArrayList<ArrayList<String>>
+     */
     public ArrayList<ArrayList<String>> obtain_sentences(String file_name) {
     	ArrayList<ArrayList<String>> sentences = new ArrayList<ArrayList<String>>();
         Path filePath = Paths.get("Archivos\\" + file_name + ".txt");
@@ -31,6 +38,11 @@ public class openFiles {
         return sentences;
     }
 
+    
+    /** 
+     * @param file_name
+     * @return ArrayList<ArrayList<String>>
+     */
     public ArrayList<ArrayList<String>> obtain_words(String file_name) {
     	ArrayList<ArrayList<String>> words = new ArrayList<ArrayList<String>>();
     	Path filePath = Paths.get("Archivos\\"+ file_name + ".txt");
@@ -55,6 +67,10 @@ public class openFiles {
         return words;
     }
 
+    
+    /** 
+     * @param file_name
+     */
     public void new_file(String file_name) {
         File File;
         try {
@@ -71,6 +87,12 @@ public class openFiles {
         }
     }
 
+    
+    /** 
+     * @param file_name
+     * @return boolean
+     * @throws IOException
+     */
     public boolean verifyingFile(String file_name) throws IOException {
     	File File;
     	// ruta archivos

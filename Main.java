@@ -1,17 +1,30 @@
+// Ana Paula Hong 22731
+
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
+// A modifier that allows the class to be accessed by other classes.
 public class Main {
     private static BinarySearchTree<String, String> englishSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings<String>());
 	private static BinarySearchTree<String, String> frenchSpanishDictionary = new BinarySearchTree<String,String>(new compareStrings<String>());
 
+    
+    /** 
+     * @param args
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
 		System.out.println("Bienvenidx al diccionario traductor :) ");
 		start();
     }
 
+    
+    /** 
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private static void start()throws IOException, InterruptedException {
 		int selection = 0;
 		
@@ -70,6 +83,13 @@ public class Main {
 		}
 	}
 
+    
+    /** 
+     * @param englishSpanishDictionary
+     * @param frenchSpanishDictionary
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private static void translateOptions(BinarySearchTree<String, String> englishSpanishDictionary, BinarySearchTree<String, String> frenchSpanishDictionary) throws IOException, InterruptedException {
 		new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 		int selection = translationOptions();
@@ -89,6 +109,11 @@ public class Main {
 		}
 	}
 
+    
+    /** 
+     * @param selection
+     * @param Dictionary
+     */
     private static void translating(int selection, BinarySearchTree<String, String> Dictionary) {
 		String word = " ";
 		ArrayList<String> translated = new ArrayList<String>();
@@ -119,6 +144,15 @@ public class Main {
 		
 	}
 
+    
+    /** 
+     * @param selection
+     * @param userSelection
+     * @param englishSpanishDictionary
+     * @param frenchSpanishDictionary
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private static void DictionaryModifications(int selection, int userSelection, BinarySearchTree<String, String> englishSpanishDictionary, BinarySearchTree<String, String> frenchSpanishDictionary)throws IOException, InterruptedException {
 		
 		String keyWord = ""; // ingles o frances
@@ -168,6 +202,10 @@ public class Main {
 		}
 	}
 
+    
+    /** 
+     * @return int
+     */
     private static int selectionDictionary() {
 		String[] options = {"Diccionario en ingles", "Diccionario en frances","Regresar"};
 		boolean next_step = false;
@@ -192,6 +230,10 @@ public class Main {
 		return selection;
 	}
 
+    
+    /** 
+     * @return int
+     */
     private static int OptionsMainMenu() {
 		int selection = 0;
 		boolean next_step = false;
@@ -217,6 +259,10 @@ public class Main {
 		return selection;
 	}
 
+    
+    /** 
+     * @return int
+     */
     private static int translationOptions() {
 		System.out.println("Seleccione un idioma para traducir");
 		String[] options = {"Ingles", "Frances","Regresar"};
@@ -242,6 +288,11 @@ public class Main {
 		return selection;	
 	}
 
+    
+    /** 
+     * @return ArrayList<ArrayList<String>>
+     * @throws IOException
+     */
     private static ArrayList<ArrayList<String>> extracting_data()throws IOException {
 		ArrayList<ArrayList<String>> words_dictionary = new ArrayList<ArrayList<String>>();
 		openFiles files = new openFiles();
@@ -252,6 +303,10 @@ public class Main {
 		return words_dictionary;
 	}
 
+    
+    /** 
+     * @param wait_time
+     */
     private static void wait(int wait_time) {
         try {
             Thread.sleep(wait_time);

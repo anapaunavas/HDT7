@@ -1,8 +1,16 @@
+// Ana Paula Hong 22731
+
 import java.util.Comparator;
 
 public class compareStrings<K> implements Comparator<K>{
 
-	@Override
+	
+    /** 
+     * @param o1
+     * @param o2
+     * @return int
+     */
+    @Override
 	public int compare(K o1, K o2) {
 		int comparison = o1.toString().compareTo(o2.toString());
 		if (comparison < 0) {

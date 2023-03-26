@@ -1,3 +1,5 @@
+// Ana Paula Hong 22731
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -12,6 +14,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		count = 0;
 	}
 
+    
+    /** 
+     * @param id
+     * @param value
+     */
     @Override
 	public void insert(K id, V value) {
 		if (isEmpty()) {
@@ -22,6 +29,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+    
+    /** 
+     * @param id
+     * @return V
+     */
     @Override
 	public V delete(K id) {
 		if (!isEmpty()) {
@@ -119,22 +131,39 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		return null;
 	}
 
+    
+    /** 
+     * @param id
+     * @return V
+     */
     @Override
 	public V find(K id) {
 		return internalFind(root, id);
 	}
 
-	@Override
+	
+    /** 
+     * @return int
+     */
+    @Override
 	public int count() {
 		return count;
 	}
 
-	@Override
+	
+    /** 
+     * @return boolean
+     */
+    @Override
 	public boolean isEmpty() {
 		return count == 0;
 	}
 
-	@Override
+	
+    /** 
+     * @return ArrayList<V>
+     */
+    @Override
 	public ArrayList<V> getElements() {
 		ArrayList<V> list = new ArrayList<V>();
 		
@@ -143,7 +172,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		return list;
 	}
 
-	@Override
+	
+    /** 
+     * @param traversal
+     */
+    @Override
 	public void inOrder(ITreeTraversal<V> traversal) {
 		internalInOrder(root, traversal);
 	}
@@ -159,6 +192,12 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		internalPostOrder(root, traversal);
 	}
 
+    
+    /** 
+     * @param actual
+     * @param id
+     * @param value
+     */
     private void internalInsert(treeNode<K, V> actual, K id, V value) {
 		
 		int result = keyComparator.compare(actual.getId(), id);
@@ -184,6 +223,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}	
 	}
 
+    
+    /** 
+     * @param actual
+     * @param traversal
+     */
     private void internalInOrder(treeNode<K, V> actual, ITreeTraversal<V> traversal) {
 		if (actual != null) {
 			internalInOrder(actual.getLeft(), traversal);
@@ -194,6 +238,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+    
+    /** 
+     * @param actual
+     * @param traversal
+     */
     private void internalPreOrder(treeNode<K, V> actual, ITreeTraversal<V> traversal) {
 		if (actual != null) {
 			traversal.Walk(actual.getValue());
@@ -204,6 +253,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+    
+    /** 
+     * @param actual
+     * @param traversal
+     */
     private void internalPostOrder(treeNode<K, V> actual, ITreeTraversal<V> traversal) {
 		if (actual != null) {
 		
@@ -215,6 +269,12 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+    
+    /** 
+     * @param actual
+     * @param id
+     * @return V
+     */
     private V internalFind(treeNode<K, V> actual, K id) {
 		if (actual != null) {
 			int result = keyComparator.compare(actual.getId(), id);
@@ -231,6 +291,11 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+    
+    /** 
+     * @param list
+     * @param actual
+     */
     private void internalGetElements(ArrayList<V> list, treeNode<K, V> actual) {
 		if (actual != null) {
 			internalGetElements(list, actual.getLeft());
@@ -241,6 +306,13 @@ public class BinarySearchTree <K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+    
+    /** 
+     * @param actual
+     * @param id
+     * @param isLeft
+     * @return V
+     */
     private V internalDelete(treeNode<K, V> actual, K id, boolean isLeft) {
 		if (actual != null) {
 			int result = keyComparator.compare(actual.getId(), id);
